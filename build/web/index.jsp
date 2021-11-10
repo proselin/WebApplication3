@@ -71,10 +71,10 @@
 </section>
 
 <!-- Product Section Begin -->
-<c:if test="${empty requestScope['listProduct']}">
-    <jsp:forward page="/home?ac=viewProduct"/>
+<<c:if test="${empty requestScope['listProduct']}">
+    <jsp:forward page="/test?ac=viewProduct"/>
 </c:if>
-<c:forEach items="$listProduct" var="x">
+
 <section class="product spad">
     <div class="container">
         <div class="row">
@@ -93,31 +93,34 @@
                 </ul>
             </div>
         </div>
-        <div class="row property__gallery">
-            <div class="col-lg-3 col-md-4 col-sm-6 ${x.getGender()}  ">
-                <div class="product__item">
-                    <div class="product__item__pic set-bg " data-setbg="img/product/p1.jpg">
-                        <div class="label new">New</div>
-                        <ul class="product__hover">
-                            <li><a href="img/product/p1.jpg" class="image-popup"><span
-                                        class="arrow_expand"></span></a></li>
 
-                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6><a href="product-details.jsp?pid-${x.getpID()}">${x.getpName()}</a></h6>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+        <div class="row property__gallery">
+            <c:forEach var="x" items="${requestScope['listProduct']}">
+                <div class="col-lg-3 col-md-4 col-sm-6 ${x.getpGender()}  ">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg " data-setbg="img/product/p1.jpg">
+                            <div class="label new">New</div>
+                            <ul class="product__hover">
+                                <li><a href="img/product/p1.jpg" class="image-popup"><span
+                                            class="arrow_expand"></span></a></li>
+
+                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
                         </div>
-                        <div class="product__price">$ ${x.getPrice()}</div>
+                        <div class="product__item__text">
+                            <h6><a href="product-details.jsp?pid=${x.getpID()}">${x.getpName()}</a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">$ ${x.getPrice()}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </c:forEach>
         </div>
     </div>
 </section>

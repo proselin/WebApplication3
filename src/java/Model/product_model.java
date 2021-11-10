@@ -37,7 +37,7 @@ public class product_model {
                 p.setpDes(rs.getString(4));
                 p.setpSale_Quantity(rs.getInt(5));
                 p.setpCurrent_Quantity(rs.getInt(6));
-                p.setpYear(rs.getDate(7));
+                p.setpYear(rs.getInt(7));
                 p.setpGet_Date(rs.getDate(8));
                 p.setpBrand(rs.getString(9));
                 p.setpGender(rs.getString(10));
@@ -99,7 +99,7 @@ public class product_model {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Product> pro = new ArrayList();
-        String sql = "SELECT TOP 9 * FROM tblproduct ORDER by pGetDate DESC ";
+        String sql = "SELECT TOP 9 * FROM tblproduct ORDER by pGet_Date DESC ";
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);

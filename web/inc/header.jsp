@@ -4,8 +4,6 @@
     Author     : quoch
 --%>
 
-<%@page import="Model.*"%>
-<%@page import="Entity.*"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -58,9 +56,6 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="profile.jsp" >
-                    <i class='fas fa-user-alt' style='font-size:36px'>${requestScope.FullName}</i>
-                </a>
             </div>
             <div class="offcanvas__auth">
                 <a href="login.jsp">Login</a>

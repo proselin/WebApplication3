@@ -46,7 +46,9 @@ public class login_controller extends HttpServlet {
             // take the infor of user
             HttpSession session = request.getSession();
             session.setAttribute("use", us);
-            response.sendRedirect("index.jsp");
+            User user = um.search_User_Data(us);
+            request.setAttribute("fullname", user.getFullName());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "Username and Password invalid !");
             request.getRequestDispatcher("login.jsp").forward(request, response);

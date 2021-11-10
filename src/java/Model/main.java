@@ -29,5 +29,7 @@ import java.util.ArrayList;
 public class main {
 
     public static void main(String[] args) {
-
+        product_model pm = new product_model();
+        System.out.println(pm.get_9_product());
     }
+}

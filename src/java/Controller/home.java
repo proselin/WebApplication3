@@ -39,13 +39,17 @@ public class home extends HttpServlet {
         String ac = request.getParameter("ac").toString();
 
         HttpSession session = request.getSession();
-        if (ac.equals("viewProduct"))
-            // show product 
+        if (ac.equals("viewProduct")) // show product 
         {
-            product_model pm = new product_model();
-            ArrayList<Product> prlist = pm.get_9_product();
-            request.setAttribute("ListProduct", prlist);
-            request.getRequestDispatcher("test1.jsp").forward(request, response);
+            try {
+                product_model pm = new product_model();
+                ArrayList<Product> prlist = pm.get_9_product();
+                request.setAttribute("listProduct", prlist);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
         }
 
     }
