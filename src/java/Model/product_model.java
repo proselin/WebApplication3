@@ -8,6 +8,7 @@ package Model;
  *
  * @author quoch
  */
+import Controller.product_controller;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,10 +20,45 @@ import java.util.ArrayList;
 
 public class product_model {
 
-    public static void main(String[] args) {
+    public ArrayList<Product> search_product(String search) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Product> pro = new ArrayList();
+        String sql = "SELECT * FROM tblproduct WHERE pName LIKE %?%";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, search);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setpID(rs.getString(1));
+                p.setpName(rs.getString(2));
+                p.setpPrice(rs.getFloat(3));
+                p.setpDes(rs.getString(4));
+                p.setpSale_Quantity(rs.getInt(5));
+                p.setpCurrent_Quantity(rs.getInt(6));
+                p.setpYear(rs.getDate(7));
+                p.setpGet_Date(rs.getDate(8));
+                p.setpBrand(rs.getString(9));
+                p.setpGender(rs.getString(10));
+                p.setpIncense(rs.getString(11));
+                p.setpMadeIn(rs.getString(12));
+                p.setpRate_Count(rs.getInt(13));
+                p.setpStatus(rs.getString(14));
+                p.setCateID(rs.getString(15));
+                pro.add(p);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return pro;
     }
 
-    public ArrayList<Product> get_product_info() {
+    public ArrayList<Product> get_all_product() {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Product> pro = new ArrayList();
@@ -38,14 +74,15 @@ public class product_model {
                 p.setpDes(rs.getString(4));
                 p.setpSale_Quantity(rs.getInt(5));
                 p.setpCurrent_Quantity(rs.getInt(6));
-                p.setpGet_Date(rs.getDate(7));
-                p.setpYear(rs.getDate(8));
+                p.setpYear(rs.getInt(7));
+                p.setpGet_Date(rs.getDate(8));
                 p.setpBrand(rs.getString(9));
-                p.setpConcentration(rs.getString(10));
-                p.setpCapacity(rs.getString(11));
-                p.setpIncense(rs.getString(12));
-                p.setpStatus(rs.getString(13));
-                p.setCateID(rs.getString(14));
+                p.setpGender(rs.getString(10));
+                p.setpIncense(rs.getString(11));
+                p.setpMadeIn(rs.getString(12));
+                p.setpRate_Count(rs.getInt(13));
+                p.setpStatus(rs.getString(14));
+                p.setCateID(rs.getString(15));
                 pro.add(p);
             }
             rs.close();
@@ -58,21 +95,122 @@ public class product_model {
         return pro;
     }
 
-    public static void printew(ArrayList<Product> pro) {
-        Product pr = new Product();
-        for (int i = 0; i < pro.size(); i++) {
-            pr = pro.get(i);
-            System.out.println(pr.toString());
+    public ArrayList<Product> get_9_product() {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Product> pro = new ArrayList();
+        String sql = "SELECT TOP 9 * FROM tblproduct ORDER by pGetDate DESC ";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Product p = new Product();
+                p.setpID(rs.getString(1));
+                p.setpName(rs.getString(2));
+                p.setpPrice(rs.getFloat(3));
+                p.setpDes(rs.getString(4));
+                p.setpSale_Quantity(rs.getInt(5));
+                p.setpCurrent_Quantity(rs.getInt(6));
+                p.setpYear(rs.getInt(7));
+                p.setpGet_Date(rs.getDate(8));
+                p.setpBrand(rs.getString(9));
+                p.setpGender(rs.getString(10));
+                p.setpIncense(rs.getString(11));
+                p.setpMadeIn(rs.getString(12));
+                p.setpRate_Count(rs.getInt(13));
+                p.setpStatus(rs.getString(14));
+                p.setCateID(rs.getString(15));
+                pro.add(p);
+            }
+            rs.close();
+            st.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
         }
+        return pro;
     }
 
-    public void Create_product(String pID, String pName, String pPrice, String pDes, int pSale_Quantity, int pCurrent_Quantity, Date pGet_Date, Date pYear, String pBrand, String pConcentration, String pCapacity, String pIncense, int pRate_Count, String pStatus, String cateID) {
+    public boolean Create_product(String pName, Float pPrice, String pDes, int pCurrent_Quantity, int pYear, String pBrand, String pGender, String pIncense, String pMadeIn, int pRate_Count, String cateID) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        boolean result = false;
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+        String sql = "INSERT INTO tblProduct VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, create_id_product());
+            ps.setString(2, pName);
+            ps.setFloat(3, pPrice);
+            ps.setString(4, pDes);
+            ps.setInt(5, 0);
+            ps.setInt(6, pCurrent_Quantity);
+            ps.setInt(7, pYear);
+            ps.setDate(8, date);
+            ps.setString(9, pBrand);
+            ps.setString(10, pGender);
+            ps.setString(11, pIncense);
+            ps.setString(12, pMadeIn);
+            ps.setInt(13, pRate_Count);
+            ps.setString(14, "Available");
+            ps.setString(15, cateID);
+            if (ps.executeUpdate() != 0) {
+                result = true;
+            }
+            ps.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
     }
 
-    public void update_product() {
+    public boolean update_product(String pID ,String pName, Float pPrice, String pDes, int pCurrent_Quantity, int pYear, String pBrand, String pGender, String pIncense, String pMadeIn,String pStatus) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        boolean result = false;
+        String sql = "UPDATE [dbo].[tblProduct]\n"
+                + "   SET \n"
+                + "      [pName] = ?\n"
+                + "      ,[pPrice] = ?\n"
+                + "      ,[pDes] = ?\n"
+                + "      ,[pCurent_Quantity] = ?\n"
+                + "      ,[pYear] = ? \n"
+                + "      ,[pBrand] = ?\n"
+                + "      ,[pGender] = ?\n"
+                + "      ,[pIncense] = ?\n"
+                + "      ,[pMadeIn] = ?\n"
+                + "      ,[pStatus] = ?\n"
+                + " WHERE pID = ?  ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, pName);
+            ps.setFloat(2, pPrice);
+            ps.setString(3, pDes);
+            ps.setInt(4, pCurrent_Quantity);
+            ps.setInt(5, pYear);
+            ps.setString(6, pBrand);
+            ps.setString(7, pGender);
+            ps.setString(8, pIncense);
+            ps.setString(9, pMadeIn);
+            ps.setString(10, pStatus);
+            ps.setString(11, pID);
+            if (ps.executeUpdate() != 0) {
+                result = true;
+            }
+            ps.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
     }
 
-    public void create_id_product() {
+    public String create_id_product() {
+        ArrayList<Product> prlist = get_all_product();
+        return "PRO" + (prlist.size() + 1);
     }
 
     public Product get_product_info(String productId) {
@@ -92,14 +230,15 @@ public class product_model {
             p.setpDes(rs.getString(4));
             p.setpSale_Quantity(rs.getInt(5));
             p.setpCurrent_Quantity(rs.getInt(6));
-            p.setpGet_Date(rs.getDate(7));
-            p.setpYear(rs.getDate(8));
+            p.setpYear(rs.getInt(7));
+            p.setpGet_Date(rs.getDate(8));
             p.setpBrand(rs.getString(9));
-            p.setpConcentration(rs.getString(10));
-            p.setpCapacity(rs.getString(11));
-            p.setpIncense(rs.getString(12));
-            p.setpStatus(rs.getString(13));
-            p.setCateID(rs.getString(14));
+            p.setpGender(rs.getString(10));
+            p.setpIncense(rs.getString(11));
+            p.setpMadeIn(rs.getString(12));
+            p.setpRate_Count(rs.getInt(13));
+            p.setpStatus(rs.getString(14));
+            p.setCateID(rs.getString(15));
 
             rs.close();
             ps.close();

@@ -46,6 +46,17 @@ public class User {
         this.point = point;
         this.RoleID = RoleID;
     }
+    public User(String Fullname,String Phone , String _UserName, String _Password){
+        this.Phone = Phone;
+        this._UserName = _UserName;
+        this._Password = _Password;
+    }
+    public User(String Email, String _UserName, String _Password) {
+        this.Email = Email;
+        this._UserName = _UserName;
+        this._Password = _Password;
+
+    }
 
     public User(String UserID, String FullName) {
         this.UserID = UserID;

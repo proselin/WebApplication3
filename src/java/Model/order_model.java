@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.text.html.HTML;
 
 /**
@@ -25,10 +26,10 @@ public class order_model {
 //    public Order create_order(String userid ){}
 
     public static void main(String[] args) {
-     
+
     }
 
-    public Order search_Order_Data(String orid) {
+    public Order get_Order(String orid) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         Order or = new Order();
@@ -83,8 +84,8 @@ public class order_model {
             ps.setString(2, orderid);
             ps.setInt(3, quantity);
             ps.setFloat(4, price);
-           
-            if ( ps.executeUpdate() >0){
+
+            if (ps.executeUpdate() > 0) {
                 result = true;
             }
             ps.close();
@@ -93,9 +94,8 @@ public class order_model {
             System.out.println(e);
         }
         return result;
-        
+
     }
-    
 
     public boolean create_order(String orderDes, String orderStatus, String orderAddress, String orderCustommerName, String orderEmailContract, String orderPhoneNumber, float orderTotalPrice, String orderPaymentMethod, String UserID, String vouID) {
         GetConnection cn = new GetConnection();
@@ -122,6 +122,115 @@ public class order_model {
             ps.setString(3, orderDes);
             ps.setDate(2, date);
             ps.setString(1, create_New_ID());
+
+            if (ps.executeUpdate() != 0) {
+                result = true;
+            }
+            ps.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return result;
+
+    }
+
+    public ArrayList<Order> get_All_Order() {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Order> ors = new ArrayList<>();
+
+        String sql = "SELECT * FROM tblOrder";
+        try {
+            Statement ps = conn.createStatement();
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                Order or = new Order();
+                or.setOrderID(rs.getString(1));
+                or.setOrderDate(rs.getDate(2));
+                or.setOrderDes(rs.getString(3));
+                or.setOrderStatus(rs.getString(4));
+                or.setOrderAddress(rs.getString(5));
+                or.setOrderCustommerName(rs.getString(6));
+                or.setOrderEmailContract(rs.getString(7));
+                or.setOrderPhoneNumber(rs.getString(8));
+                or.setOrderTotalPrice(rs.getFloat(9));
+                or.setOrderPaymentMethod(rs.getString(10));
+                or.setUserID(rs.getString(11));
+                or.setVouID(rs.getString(12));
+                ors.add(or);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return ors;
+    }
+
+    public ArrayList<Order> get_User_Order(String uid) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Order> ors = new ArrayList<>();
+
+        String sql = "SELECT * FROM tblOrder WHERE UserID = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, uid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order or = new Order();
+                or.setOrderID(rs.getString(1));
+                or.setOrderDate(rs.getDate(2));
+                or.setOrderDes(rs.getString(3));
+                or.setOrderStatus(rs.getString(4));
+                or.setOrderAddress(rs.getString(5));
+                or.setOrderCustommerName(rs.getString(6));
+                or.setOrderEmailContract(rs.getString(7));
+                or.setOrderPhoneNumber(rs.getString(8));
+                or.setOrderTotalPrice(rs.getFloat(9));
+                or.setOrderPaymentMethod(rs.getString(10));
+                or.setUserID(rs.getString(11));
+                or.setVouID(rs.getString(12));
+                ors.add(or);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return ors;
+    }
+
+    public boolean update_order(String orderid, String orderDes, String orderStatus, String orderAddress, String orderEmailContract, String orderPhoneNumber) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        boolean result = false;
+        //Create new order ;
+        String sql = "UPDATE [dbo].[tblOrder]\n"
+                + "   SET \n"
+                + "      [orderDes] = ?\n"
+                + "      ,[orderStatus] = ?\n"
+                + "      ,[orderAddress] = ?\n"
+                + "      ,[orderEmailContract] = ?\n"
+                + "      ,[orderPhoneNumber] = ?\n"
+                + " WHERE \n"
+                + "      [orderID] = ?";
+        try {
+            // time for comapre
+            //start insert
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(6, orderid);
+            ps.setString(5, orderPhoneNumber);
+            ps.setString(4, orderEmailContract);
+            ps.setString(3, orderAddress);
+            ps.setString(2, orderStatus);
+            ps.setString(1, orderDes);
 
             if (ps.executeUpdate() != 0) {
                 result = true;

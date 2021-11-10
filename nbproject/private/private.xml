@@ -3,21 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/order_controller.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/login.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/Checkout.jsp</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/home.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/nbproject/project.xml</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/checkLogin.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/inc/test1.jsp</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/main.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Entity/Order.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/order_model.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/inc/footer.jsp</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/product_model.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/product-details.html</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/index.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/shop.html</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Entity/User.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/login_controller.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/inc/header.jsp</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/testsession.jsp</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Entity/voucher_user.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/voucher_Model.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/user_Model.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/contact.html</file>
         </group>
     </open-files>
 </project-private>

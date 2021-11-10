@@ -11,40 +11,36 @@ import java.sql.Date;
  * @author quoch
  */
 public class Product {
-   private String pID;
-   private String pName;
-   private Float pPrice;
-   private String pDes;
-   private int pSale_Quantity;
-   private int pCurrent_Quantity;
-   private Date pGet_Date;
-   private Date pYear;
-   private String pBrand;
-   private String pConcentration;
-   private String pCapacity;
-   private String pIncense;
-   private int pRate_Count;
-   private String pStatus;
-   private String cateID;
 
-    @Override
-    public String toString() {
-        return "Product{" + "pID=" + pID + ", pName=" + pName + ", pPrice=" + pPrice + ", pDes=" + pDes + ", pSale_Quantity=" + pSale_Quantity + ", pCurrent_Quantity=" + pCurrent_Quantity + ", pGet_Date=" + pGet_Date + ", pYear=" + pYear + ", pBrand=" + pBrand + ", pConcentration=" + pConcentration + ", pCapacity=" + pCapacity + ", pIncense=" + pIncense + ", pRate_Count=" + pRate_Count + ", pStatus=" + pStatus + ", cateID=" + cateID + '}';
-    }
+    private String pID;
+    private String pName;
+    private Float pPrice;
+    private String pDes;
+    private int pSale_Quantity;
+    private int pCurrent_Quantity;
+    private int pYear;
+    private Date pGet_Date;
+    private String pBrand;
+    private String pGender;
+    private String pIncense;
+    private String pMadeIn;
+    private int pRate_Count;
+    private String pStatus;
+    private String cateID;
 
-    public Product(String pID, String pName, Float pPrice, String pDes, int pSale_Quantity, int pCurrent_Quantity, Date pGet_Date, Date pYear, String pBrand, String pConcentration, String pCapacity, String pIncense, int pRate_Count, String pStatus, String cateID) {
+    public Product(String pID, String pName, Float pPrice, String pDes, int pSale_Quantity, int pCurrent_Quantity, int pYear, Date pGet_Date, String pBrand, String pGender, String pIncense, String pMadeIn, int pRate_Count, String pStatus, String cateID) {
         this.pID = pID;
         this.pName = pName;
         this.pPrice = pPrice;
         this.pDes = pDes;
         this.pSale_Quantity = pSale_Quantity;
         this.pCurrent_Quantity = pCurrent_Quantity;
-        this.pGet_Date = pGet_Date;
         this.pYear = pYear;
+        this.pGet_Date = pGet_Date;
         this.pBrand = pBrand;
-        this.pConcentration = pConcentration;
-        this.pCapacity = pCapacity;
+        this.pGender = pGender;
         this.pIncense = pIncense;
+        this.pMadeIn = pMadeIn;
         this.pRate_Count = pRate_Count;
         this.pStatus = pStatus;
         this.cateID = cateID;
@@ -101,20 +97,20 @@ public class Product {
         this.pCurrent_Quantity = pCurrent_Quantity;
     }
 
+    public int getpYear() {
+        return pYear;
+    }
+
+    public void setpYear(int pYear) {
+        this.pYear = pYear;
+    }
+
     public Date getpGet_Date() {
         return pGet_Date;
     }
 
     public void setpGet_Date(Date pGet_Date) {
         this.pGet_Date = pGet_Date;
-    }
-
-    public Date getpYear() {
-        return pYear;
-    }
-
-    public void setpYear(Date pYear) {
-        this.pYear = pYear;
     }
 
     public String getpBrand() {
@@ -125,20 +121,12 @@ public class Product {
         this.pBrand = pBrand;
     }
 
-    public String getpConcentration() {
-        return pConcentration;
+    public String getpGender() {
+        return pGender;
     }
 
-    public void setpConcentration(String pConcentration) {
-        this.pConcentration = pConcentration;
-    }
-
-    public String getpCapacity() {
-        return pCapacity;
-    }
-
-    public void setpCapacity(String pCapacity) {
-        this.pCapacity = pCapacity;
+    public void setpGender(String pGenger) {
+        this.pGender = pGenger;
     }
 
     public String getpIncense() {
@@ -147,6 +135,14 @@ public class Product {
 
     public void setpIncense(String pIncense) {
         this.pIncense = pIncense;
+    }
+
+    public String getpMadeIn() {
+        return pMadeIn;
+    }
+
+    public void setpMadeIn(String pMadeIn) {
+        this.pMadeIn = pMadeIn;
     }
 
     public int getpRate_Count() {
@@ -172,6 +168,4 @@ public class Product {
     public void setCateID(String cateID) {
         this.cateID = cateID;
     }
-   
-   
 }

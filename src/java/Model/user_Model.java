@@ -18,8 +18,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class user_Model { 
-
+public class user_Model {
 
     public User search_User_Data(String userid) {
         GetConnection cn = new GetConnection();
@@ -54,25 +53,11 @@ public class user_Model {
         return us;
     }
 
-    private void show_User_Data(String id) {
-        User us = search_User_Data(id);
-        System.out.println(us.getUserID());
-        System.out.println(us.getFullName());
-        System.out.println(us.getAddress());
-        System.out.println(us.getGender());
-        System.out.println(us.getPhone());
-        System.out.println(us.getEmail());
-        System.out.println(us.getDate_of_birth());
-        System.out.println(us.getPassword());
-        System.out.println(us.getUserName());
-        System.out.println(us.getPoint());
-        System.out.println(us.getRoleID());
-    }
-
     public boolean create_New_User(String FullName, String _Address, String Gender, String Phone, String Email, Date Date_of_birth, String _UserName, String _Password, int point, String RoleID) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         boolean result = false;
+        User us = new User();
         String sql = " INSERT INTO tblUser Values (?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -164,8 +149,9 @@ public class user_Model {
         }
         return result;
     }
-    public boolean Delete_User(){
-                String RoleID = "User012";
+
+    public boolean Delete_User() {
+        String RoleID = "User012";
         boolean result = false;
         if (RoleID == "Admin012") {
             return result;
@@ -188,7 +174,4 @@ public class user_Model {
         }
         return result;
     }
-
-    }
-
-
+}

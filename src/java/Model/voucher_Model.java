@@ -10,8 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import Entity.voucher;
+import Entity.voucher_user;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 /**
  *
@@ -19,13 +22,11 @@ import java.sql.SQLException;
  */
 public class voucher_Model {
 
-    public static void main(String[] args) {
 
-    }
-
-    public void showVoucher() {
+    public ArrayList<voucher> show_All_Voucher() {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
+        ArrayList<voucher> listvou = new ArrayList<>();
         String sql = "Select * from tblVoucher";
         try {
 //            PreparedStatement ps = conn.prepareStatement(sql);
@@ -42,6 +43,7 @@ public class voucher_Model {
                 String status = rs.getString("vouStatus");
                 String rule = rs.getString("vouRule");
                 vc = new voucher(id, name, Values, crdate, status, rule);
+                listvou.add(vc);
             }
             rs.close();
             st.close();
@@ -49,39 +51,30 @@ public class voucher_Model {
 
         } catch (Exception e) {
         }
-
+        return listvou;
     }
 
-//    public void show_voucher_user(String uid) {
-//        GetConnection cn = new GetConnection();
-//        Connection conn = cn.getConnection();
-//        voucher vc = new voucher();
-//        String sql = "Select * from tblVoucher WHERE UserID = ? ";
-//        try {
-//            PreparedStatement st = conn.prepareStatement(sql);
-//            st.setString(1, uid);
-//            ResultSet rs = st.executeQuery(sql);
-//            //get date from the database 
-//            while (rs.next()) {
-//
-//                String id = rs.getString("vouID");
-//                String name = rs.getString("vouName");
-//                float Values = rs.getFloat("vouValues");
-//                Date exdate = rs.getDate("vouDate_Expired");
-//                Date crdate = rs.getDate("vouDate_Create");
-//                String status = rs.getString("vouStatus");
-//                String rule = rs.getString("vouRule");
-//                vc = new voucher(id, name, Values, crdate, status, rule);
-//            }
-//            rs.close();
-//            st.close();
-//            conn.close();
-//
-//        } catch (Exception e) {
-//        }
-//        return vc;
-//
-//    }
+    public  ArrayList<voucher_user> show_user_Voucher(String uid) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<voucher_user> uvlist = new ArrayList<voucher_user>();
+        String sql = "SELECT * FROM voucher_user WHERE voucher_user.UserID = ? ORDER BY voucher_user.vouID DESC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, uid);
+            ResultSet rs = ps.executeQuery();
+            voucher_user vu = new voucher_user();
+            while (rs.next()) {
+                vu.setVouID(rs.getString("vouID"));
+                vu.setUserID(rs.getString("UserID"));
+                vu.setStatus(rs.getString("_status"));
+                uvlist.add(vu);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return uvlist;
+    }
 
     public boolean check_Status_voucher(String vouid, String userid) {
         boolean result = false;
@@ -118,7 +111,7 @@ public class voucher_Model {
         float result = 0;
         String sql = "Select vouValues from tblVoucher where vouID = ?";
         try {
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            try ( PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, vouid);
                 ResultSet rs = ps.executeQuery();
                 rs.next();
@@ -227,4 +220,5 @@ public class voucher_Model {
         } catch (Exception ex) {
         }
     }
+
 }

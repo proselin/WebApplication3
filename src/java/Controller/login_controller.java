@@ -6,8 +6,10 @@ package Controller;
 
 import Model.checkLogin;
 import Entity.User;
+import Model.user_Model;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,22 +36,17 @@ public class login_controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String username = request.getParameter("txtUsn");
-        String password = request.getParameter("txtPw");
+        String username = request.getParameter("username").toString();
+        String password = request.getParameter("pass").toString();
         // tao Session
         checkLogin cl = new checkLogin();
-        if (cl.checkLogin(username, password)) {
+        String us = cl.checkLogin(username, password);
+        user_Model um = new user_Model();
+        if (us !="" && us !=null) {
             // take the infor of user
-            
-//            // tao session va them cac gia tri vao trong sesstion
-////                HttpSession session = request.getSession();
-////                session.setAttribute("User", username);
-////                session.setAttribute("Pass", password);
-////                session.setAttribute("RoleID", RoleID);
-////                session.setAttribute("FullName", fullname);
-////                session.setAttribute("UserID", UserID);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            HttpSession session = request.getSession();
+            session.setAttribute("use", us);
+            response.sendRedirect("index.jsp");
         } else {
             request.setAttribute("error", "Username and Password invalid !");
             request.getRequestDispatcher("login.jsp").forward(request, response);
