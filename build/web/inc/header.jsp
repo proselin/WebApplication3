@@ -77,15 +77,15 @@
                     <div class="col-xl-6 col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./index.html">Home</a></li>
-                                <li><a href="#">Women’s</a></li>
-                                <li><a href="#">Men’s</a></li>
-                                <li><a href="./shop.html">brand</a></li>
+                                <li class="active"><a href="index.jsp">Home</a></li>
+                                <li><a href="shop.jsp">Women</a></li>
+                                <li><a href="shop.jsp">Men</a></li>
+                                <li><a href="shop.jsp">brand</a></li>
                                 <li><a href="blog.html">News</a>
                                     <ul class="dropdown">
-                                        <li><a href="./product-details.html">Product Details</a></li>
+                                        <li><a href="./product-details.jsp">Product Details</a></li>
                                         <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                        <li><a href="./checkout.html">Checkout</a></li>
+                                        <li><a href="./checkout.jsp">Checkout</a></li>
                                         <li><a href="./blog-details.html">Blog Details</a></li>
                                     </ul>
                                 </li>

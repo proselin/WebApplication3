@@ -5,29 +5,24 @@
         <group>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/test.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Entity/Product.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/home.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/Checkout.jsp</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/shop.jsp</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/js/login.js</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/admin/user_list.jsp</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/checkLogin.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/main.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/product_controller.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/product_model.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Entity/img.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/product-details.html</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/index.jsp</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/inc/header.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/testsession.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/product_inf.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Entity/voucher_user.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/voucher_Model.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/user_Model.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/profile.html</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/login.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/nbproject/project.xml</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/sass/_header.scss</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/checkLogin.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/order_model.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/inc/footer.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/product_controller.java</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/login_controller.java</file>
             <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/newjsp.jsp</file>
-            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/contact.html</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/shop.html</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/img_model.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/product-details.jsp</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Model/user_Model.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/src/java/Controller/user_controller.java</file>
+            <file>file:/C:/Users/quoch/Documents/NetBeansProjects/WebApplication3/web/profile.html</file>
         </group>
     </open-files>
 </project-private>

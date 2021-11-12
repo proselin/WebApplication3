@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,6 +52,41 @@ public class user_Model {
             Logger.getLogger(user_Model.class.getName()).log(Level.SEVERE, null, ex);
         }
         return us;
+    }
+
+    public ArrayList<User> User_Data() {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+
+        ArrayList<User> listuser = new ArrayList<>();
+        String sql = "Select * from tblUser ";
+        try {
+            Statement ps = conn.createStatement();
+            ResultSet rs = ps.executeQuery(sql);
+            while (rs.next()) {
+                // Get data
+                User us = new User();
+                us.setUserID(rs.getString(1));
+                us.setFullName(rs.getString(2));
+                us.setAddress(rs.getString(3));
+                us.setGender(rs.getString(4));
+                us.setPhone(rs.getString(5));
+                us.setEmail(rs.getString(6));
+                us.setDate_of_birth(rs.getDate(7));
+                us.setUserName(rs.getString(8));
+                us.setPassword(rs.getString(9));
+                us.setPoint(rs.getInt(10));
+                us.setRoleID(rs.getString(11));
+                listuser.add(us);
+            }
+            //close port
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(user_Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listuser;
     }
 
     public boolean create_New_User(String FullName, String _Address, String Gender, String Phone, String Email, Date Date_of_birth, String _UserName, String _Password, int point, String RoleID) {
@@ -174,4 +210,6 @@ public class user_Model {
         }
         return result;
     }
+
+
 }

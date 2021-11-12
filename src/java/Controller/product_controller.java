@@ -4,13 +4,17 @@
  */
 package Controller;
 
+import Entity.Product;
+import Model.product_model;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,17 +35,36 @@ public class product_controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet product_controller</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet product_controller at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String ac = request.getParameter("ac").toString();
+        if (ac.equals("hpage")) // show product 
+        {
+            try {
+                product_model pm = new product_model();
+                ArrayList<Product> prlist = pm.get_9_product();
+                request.setAttribute("listProduct", prlist);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+        }
+        if(ac.equals("viewsingleproduct")){
+            try {
+                product_model pm = new product_model();
+                String pid = request.getParameter("pid");
+                Product pr  = pm.get_product_info(pid);
+                request.setAttribute("product_infor", pr);
+                request.getRequestDispatcher("product-details.jsp").forward(request, response);
+            } catch (Exception e) {
+            }
+        }
+        if(ac.equals("viewallproduct")){
+            try {
+                product_model pm = new product_model();
+                request.setAttribute("product_list", pm.get_all_product());
+                request.getRequestDispatcher("shop.jsp").forward(request, response);
+            } catch (Exception e) {
+            }
         }
     }
 

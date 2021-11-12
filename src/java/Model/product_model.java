@@ -8,12 +8,12 @@ package Model;
  *
  * @author quoch
  */
-import Controller.product_controller;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import Entity.Product;
+import Entity.img;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -31,7 +31,8 @@ public class product_model {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
-                p.setpID(rs.getString(1));
+                String id = rs.getString(1);
+                p.setpID(id);
                 p.setpName(rs.getString(2));
                 p.setpPrice(rs.getFloat(3));
                 p.setpDes(rs.getString(4));
@@ -46,6 +47,8 @@ public class product_model {
                 p.setpRate_Count(rs.getInt(13));
                 p.setpStatus(rs.getString(14));
                 p.setCateID(rs.getString(15));
+                img_model img = new img_model();
+                p.setImgs(img.show_image(id));
                 pro.add(p);
             }
             rs.close();
@@ -62,13 +65,16 @@ public class product_model {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Product> pro = new ArrayList();
+        
         String sql = "SELECT * FROM tblproduct";
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 Product p = new Product();
-                p.setpID(rs.getString(1));
+                String id = rs.getString(1);
+                System.out.println(id);
+                p.setpID(id);
                 p.setpName(rs.getString(2));
                 p.setpPrice(rs.getFloat(3));
                 p.setpDes(rs.getString(4));
@@ -83,6 +89,8 @@ public class product_model {
                 p.setpRate_Count(rs.getInt(13));
                 p.setpStatus(rs.getString(14));
                 p.setCateID(rs.getString(15));
+                img_model img = new img_model();
+                p.setImgs(img.show_image(id));
                 pro.add(p);
             }
             rs.close();
@@ -99,13 +107,14 @@ public class product_model {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Product> pro = new ArrayList();
-        String sql = "SELECT TOP 9 * FROM tblproduct ORDER by pGet_Date DESC ";
+        String sql = "SELECT TOP 8 * FROM tblproduct ORDER by pGet_Date DESC ";
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 Product p = new Product();
-                p.setpID(rs.getString(1));
+                String id = rs.getString(1);
+                p.setpID(id);
                 p.setpName(rs.getString(2));
                 p.setpPrice(rs.getFloat(3));
                 p.setpDes(rs.getString(4));
@@ -120,6 +129,8 @@ public class product_model {
                 p.setpRate_Count(rs.getInt(13));
                 p.setpStatus(rs.getString(14));
                 p.setCateID(rs.getString(15));
+                img_model img = new img_model();
+                p.setImgs(img.show_image(id));
                 pro.add(p);
             }
             rs.close();
@@ -167,7 +178,7 @@ public class product_model {
         return result;
     }
 
-    public boolean update_product(String pID ,String pName, Float pPrice, String pDes, int pCurrent_Quantity, int pYear, String pBrand, String pGender, String pIncense, String pMadeIn,String pStatus) {
+    public boolean update_product(String pID, String pName, Float pPrice, String pDes, int pCurrent_Quantity, int pYear, String pBrand, String pGender, String pIncense, String pMadeIn, String pStatus) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         boolean result = false;
@@ -220,11 +231,12 @@ public class product_model {
         String sql = "Select * from tblProduct Where pID =?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(0, productId);
+            ps.setString(1, productId);
             ResultSet rs = ps.executeQuery();
             //get data
-
-            p.setpID(rs.getString(1));
+            rs.next();
+            String id = rs.getString(1);
+            p.setpID(id);
             p.setpName(rs.getString(2));
             p.setpPrice(rs.getFloat(3));
             p.setpDes(rs.getString(4));
@@ -238,7 +250,8 @@ public class product_model {
             p.setpMadeIn(rs.getString(12));
             p.setpRate_Count(rs.getInt(13));
             p.setpStatus(rs.getString(14));
-            p.setCateID(rs.getString(15));
+            img_model img = new img_model();
+            p.setImgs(img.show_image(id));
 
             rs.close();
             ps.close();
@@ -296,7 +309,7 @@ public class product_model {
 
     }
 
-    public static float get_Current_price(String pID) {
+    public float get_Current_price(String pID) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         float result = 0;

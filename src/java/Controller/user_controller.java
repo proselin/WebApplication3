@@ -71,19 +71,7 @@ public class user_controller extends HttpServlet {
                     voucher_Model vm = new voucher_Model();
                     ArrayList<voucher_user> listvou = vm.show_user_Voucher(userid);
                     request.setAttribute("listvou", listvou);
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
                     
                     request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }

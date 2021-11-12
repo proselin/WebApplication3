@@ -30,6 +30,9 @@ public class main {
 
     public static void main(String[] args) {
         product_model pm = new product_model();
-        System.out.println(pm.get_9_product());
+        user_Model us = new user_Model();
+        System.out.println(pm.get_all_product().get(0).getImgs());
+        img_model im = new img_model();
+        System.out.println(pm.get_product_info("PRO1").getImgs().get(0).getImgURL());
     }
 }
