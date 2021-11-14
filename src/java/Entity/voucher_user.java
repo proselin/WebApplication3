@@ -4,6 +4,8 @@
  */
 package Entity;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author quoch
@@ -12,6 +14,19 @@ public class voucher_user {
     private String UserID;
     private String VouID;
     private String status;
+    private voucher voucher_info;
+
+    public voucher getVoucher_info() {
+        return voucher_info;
+    }
+
+    public void setVoucher_info(voucher voucher_info) {
+        this.voucher_info = voucher_info;
+    }
+
+
+
+    
 
     public voucher_user(String UserID, String VouID, String status) {
         this.UserID = UserID;

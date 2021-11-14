@@ -22,7 +22,6 @@ import java.util.Hashtable;
  */
 public class voucher_Model {
 
-
     public ArrayList<voucher> show_All_Voucher() {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
@@ -54,20 +53,22 @@ public class voucher_Model {
         return listvou;
     }
 
-    public  ArrayList<voucher_user> show_user_Voucher(String uid) {
+    public ArrayList<voucher_user> get_user_Voucher(String uid) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
-        ArrayList<voucher_user> uvlist = new ArrayList<voucher_user>();
-        String sql = "SELECT * FROM voucher_user WHERE voucher_user.UserID = ? ORDER BY voucher_user.vouID DESC";
+        ArrayList<voucher_user> uvlist = new ArrayList<>();
+        String sql = "SELECT * FROM voucher_user WHERE voucher_user.UserID = ? ORDER BY vouDate_Create DESC";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, uid);
             ResultSet rs = ps.executeQuery();
             voucher_user vu = new voucher_user();
             while (rs.next()) {
-                vu.setVouID(rs.getString("vouID"));
-                vu.setUserID(rs.getString("UserID"));
-                vu.setStatus(rs.getString("_status"));
+                String vid = rs.getString(1);
+                vu.setVouID(vid);
+                vu.setUserID(rs.getString(2));
+                vu.setStatus(rs.getString(3));
+                vu.setVoucher_info(get_voucher(vid));
                 uvlist.add(vu);
             }
         } catch (SQLException e) {
@@ -75,7 +76,7 @@ public class voucher_Model {
         }
         return uvlist;
     }
-
+    
     public boolean check_Status_voucher(String vouid, String userid) {
         boolean result = false;
         GetConnection cn = new GetConnection();
@@ -105,17 +106,23 @@ public class voucher_Model {
 
     }
 
-    public float get_voucher(String vouid) {
+    public voucher get_voucher(String vouid) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
-        float result = 0;
-        String sql = "Select vouValues from tblVoucher where vouID = ?";
+        voucher result = new voucher();
+        String sql = "Select * from tblVoucher where vouID = ?";
         try {
-            try ( PreparedStatement ps = conn.prepareStatement(sql)) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setString(1, vouid);
                 ResultSet rs = ps.executeQuery();
                 rs.next();
-                result = rs.getFloat("vouValues");
+                result.setVouID(rs.getString(1));
+                result.setVouName(rs.getString(2));
+                result.setVouValues(rs.getFloat(3));
+                result.setVouDate_Expired(rs.getDate(4));
+                result.setVouDate_Create(rs.getDate(5));
+                result.setVouStatus(rs.getString(6));
+                result.setVouRule(rs.getString(7));
                 rs.close();
             }
             conn.close();
@@ -126,7 +133,7 @@ public class voucher_Model {
 
     }
 
-    public void use_voucher_user(String userid, String vouid) {
+    public void use_voucher(String userid, String vouid) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         String sql = "Update Voucher_user set _Status =  'Unavailable' "
@@ -135,7 +142,6 @@ public class voucher_Model {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, userid);
             ps.setString(2, vouid);
-//            Statement st = conn.createStatement();
             ps.executeUpdate();
             ps.close();
             conn.close();
@@ -152,7 +158,7 @@ public class voucher_Model {
                 + "WHERE  Voucher_user.VoucherID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(0, vouid);
+            ps.setString(1, vouid);
 //            Statement st = conn.createStatement();
             ps.executeUpdate(sql);
 
@@ -209,10 +215,9 @@ public class voucher_Model {
     public void change_status_voucher(String id) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
-        String sql = "Update tblVoucher Set vouStatus = ? Where vouID =? ";
+        String sql = "Update tblVoucher Set vouStatus = 'Unavailable' Where vouID =? ";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(0, "Expired");
             ps.setString(1, id);
             ps.executeUpdate();
             ps.close();
@@ -221,4 +226,46 @@ public class voucher_Model {
         }
     }
 
+    public boolean add_voucher(String vouID, String vouName, float vouValues, Date vouDate_Expired, String vouStatus, String vouRule) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        boolean result = false;
+        String sql = "Insert into tblVoucher VALUES (?,?,?,?,GETDATE(),'Available',?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, vouID);
+            ps.setString(2, vouName);
+            ps.setFloat(3, vouValues);
+            ps.setDate(4, vouDate_Expired);
+            ps.setString(5, vouRule);
+            if (ps.executeUpdate() > 0) {
+                result = true;
+            }
+            ps.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
+    
+    public int[] explainrule(String rule){
+        String [] a =  rule.split("point");
+        int[] result = new int[1];
+        result[0] = Integer.parseInt(a[0]);
+        result[1] = Integer.parseInt(a[1]);
+    }
+///Rule :
+//        form cua mot rule trong data base :
+//        {condition user} , {condition order} 
+//        Ex : "," co nghia la ap dung cho moi user va moi don hang
+//            "20point1000,10product" co nghia la ap dung voi user co tu 20 den 100 point va don hang phai co 10 san pham
+//    Nhung condition ve nguoi su dung va co the claim voucher :
+//    1."" ap dung cho tat ca user khong giai han
+//    2.{number1} + point +{number2} la chi dinh ap dung cho nhung user co point tu number1 den number2
+//    Condition ve don hang :
+//    1. "" ap dung cho tat ca don hang khong gioi hang 
+//    2. {number1} + product ap dung cho don hang dat toi thieu number1 mat hang
+//    3. {number1} + Price ap dung cho don hang dat toi thieu number1 gia tri
+     
 }

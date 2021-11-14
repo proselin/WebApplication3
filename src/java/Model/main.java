@@ -34,5 +34,13 @@ public class main {
         System.out.println(pm.get_all_product().get(0).getImgs());
         img_model im = new img_model();
         System.out.println(pm.get_product_info("PRO1").getImgs().get(0).getImgURL());
+        
+        String java = "100point1000";
+        String[]part = java.split("point");
+        String part1 = part[0];
+        String part2 = part[1];
+        
+        System.out.println(part1);
+        System.out.println(part2);
     }
 }

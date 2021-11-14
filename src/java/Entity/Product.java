@@ -29,6 +29,15 @@ public class Product {
     private String cateID;
     private String cateName;
     private ArrayList<img> imgs;
+    private int take;
+
+    public int getTake() {
+        return take;
+    }
+
+    public void setTake(int take) {
+        this.take = take;
+    }
 
     public Product(String pID, String pName, Float pPrice, String pDes, int pSale_Quantity, int pCurrent_Quantity, int pYear, Date pGet_Date, String pBrand, String pGender, String pIncense, String pMadeIn, int pRate_Count, String pStatus, String cateID) {
         this.pID = pID;
