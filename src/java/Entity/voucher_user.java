@@ -25,9 +25,6 @@ public class voucher_user {
     }
 
 
-
-    
-
     public voucher_user(String UserID, String VouID, String status) {
         this.UserID = UserID;
         this.VouID = VouID;

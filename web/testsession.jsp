@@ -15,12 +15,12 @@
     </head>
     <body>
         <h1>${sessionScope.prlist}</h1>
-        <h1>${sessionScope.uid}</h1>
+        <h1>${sessionScope.use}</h1>
         <% Date date = new Date();
         out.print(date.toString());
         %>
         <c:set var="s" value="2002" />
-        <c:out value="${s}" />
+        <c:out value="${sessionScope.fullname}" />
         <c:set var="s" value="${s + 100000}" />
          <c:out value="${s}" />
         <h1></h1>

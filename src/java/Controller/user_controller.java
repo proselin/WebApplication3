@@ -69,7 +69,7 @@ public class user_controller extends HttpServlet {
                 if (ac.equals("Show_voucher")) {
                     voucher vou = new voucher();
                     voucher_Model vm = new voucher_Model();
-                    ArrayList<voucher_user> listvou = vm.show_user_Voucher(userid);
+                    ArrayList<voucher_user> listvou = vm.get_user_Voucher(userid);
                     request.setAttribute("listvou", listvou);
 
                     

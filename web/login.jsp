@@ -42,7 +42,7 @@
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login100">
-                    <form class="login100-form validate-form" Method="POST" action="login_controller">
+                    <form class="login100-form validate-form" Method="POST" action="login">
                         <span class="login100-form-title p-b-43">
                             Hi! Charmaine Website
                         </span>
@@ -52,7 +52,7 @@
                         <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
                             <input class="input100" type="text" name="username">
                             <span class="focus-input100"></span>
-                            <span class="label-input100">Enter Username or email</span>
+                            <span class="label-input100">Enter Username</span>
                         </div>
 
 

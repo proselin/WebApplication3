@@ -6,6 +6,7 @@ package Entity;
 
 import java.sql.Date;
 import java.util.ArrayList;
+
 /**
  *
  * @author quoch
@@ -27,9 +28,17 @@ public class Product {
     private int pRate_Count;
     private String pStatus;
     private String cateID;
-    private String cateName;
+    private category cateinfo;
     private ArrayList<img> imgs;
     private int take;
+
+    public category getCateinfo() {
+        return cateinfo;
+    }
+
+    public void setCateinfo(category cateinfo) {
+        this.cateinfo = cateinfo;
+    }
 
     public int getTake() {
         return take;
@@ -180,14 +189,6 @@ public class Product {
         this.cateID = cateID;
     }
 
-    public String getCateName() {
-        return cateName;
-    }
-
-    public void setCateName(String cateName) {
-        this.cateName = cateName;
-    }
-
     public ArrayList<img> getImgs() {
         return imgs;
     }
@@ -195,7 +196,5 @@ public class Product {
     public void setImgs(ArrayList<img> imgs) {
         this.imgs = imgs;
     }
-
-
 
 }

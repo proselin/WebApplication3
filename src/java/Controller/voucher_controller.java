@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import Entity.*;
+import Model.*;
+import java.util.ArrayList;
 
 /**
  *
  * @author quoch
  */
-@WebServlet(name = "voucher_controller", urlPatterns = {"/voucher_controller"})
+@WebServlet(name = "voucher_controller", urlPatterns = {"/vou"})
 public class voucher_controller extends HttpServlet {
 
     /**
@@ -31,11 +34,61 @@ public class voucher_controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        if (null != (session.getAttribute("use"))) {
+            String userid = session.getAttribute("use").toString();
+            String ac = request.getParameter("ac");
+            if (ac.equals("doshow")) {
+                if (request.getAttribute("listvou") != null || request.getAttribute("listvuse") != null) {
+                    request.removeAttribute("listvou");
+                    request.removeAttribute("listvuse");
+                }
 
-        
+                voucher_Model vm = new voucher_Model();
+                vm.check_status_all_voucher();
+                //voucher ma nguoi su dung dang co
+                ArrayList<voucher_user> listvou = vm.get_user_Voucher(userid);
+                ArrayList<voucher> listvuse = vm.show_All_Voucher(userid);
+                ArrayList<voucher> os = new ArrayList<>();
+                for (voucher o : listvuse) {
+                    for (voucher_user b : listvou) {
+                        if (o.getVouID().equals(b.getVouID())) {
+                            os.add(o);
+                        }
+                    }
+                }
+                listvuse.removeAll(os);
+                request.setAttribute("listv", listvou);
+                request.setAttribute("listvn", listvuse);
+                request.getRequestDispatcher("voucher.jsp").forward(request, response);
+
+            }
+            if (ac.equals("doadd")) {
+                String id = request.getParameter("id");
+                voucher_Model vm = new voucher_Model();
+                vm.check_status_all_voucher();
+                user_Model usm = new user_Model();
+                User us = usm.search_User_Data(userid);
+
+                voucher csc = vm.get_voucher(id);
+                int[] rule = vm.explainrule(csc.getVouRule());
+                int point = us.getPoint();
+                //check status and check rule
+                if (csc.getVouStatus().equals("Available") && rule[0] <= point && point <= rule[1]) {
+                    vm.claim_vocher(id, userid);
+                } else {
+                    request.setAttribute("error", "Your account dont meet the conditions");
+                }
+                response.sendRedirect("vou?ac=doshow");
+
+            }
+        } else {
+            response.sendRedirect("login");
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

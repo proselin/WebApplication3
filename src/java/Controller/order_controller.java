@@ -41,22 +41,46 @@ public class order_controller extends HttpServlet {
 
         String ac = request.getParameter("ac");
         if (ac.equals("cart")) {
+            product_model pm = new product_model();
             HttpSession session = request.getSession();
             String pid = request.getParameter("pid");
-            int quantitytaking  =  Integer.parseInt(request.getParameter("quantity"));
-            product_model pm = new product_model();
-            ArrayList<Product> prlist = new ArrayList<>();
-            Product pr = pm.get_product_info(pid);
-            pr.setTake(quantitytaking);
-            prlist.add(pr);
-            session.setAttribute("prlist", prlist);
+            int quantitytaking = Integer.parseInt(request.getParameter("quantity"));
+            if (session.getAttribute("prlist") == null) {
+                ArrayList<Product> prlist = new ArrayList<>();
+                Product pr = pm.get_product_info(pid);
+                pr.setTake(quantitytaking);
+                prlist.add(pr);
+                session.setAttribute("prlist", prlist);
+                String url = request.getHeader("referer");
+                response.sendRedirect(url);
+
+            } else {
+                ArrayList<Product> prlist = (ArrayList<Product>) session.getAttribute("prlist");
+                session.removeAttribute("prlist");
+                boolean st =false;
+                Product pr = pm.get_product_info(pid);
+                for (Product psd : prlist){
+                    if(psd.getpID().equals( pr.getpID())){
+                        psd.setTake(1 + psd.getTake());
+                        st =true;
+                    }
+                }
+                if(st == false){
+                    prlist.add(pr);
+                }
+                session.setAttribute("prlist", prlist);
+                String url = request.getHeader("referer");
+                response.sendRedirect(url);
+
+            }
         }
-//        if(ac.equals("tocard")){
-//            HttpSession session = request.getSession();
-//            ArrayList<Product> prlist = (ArrayList<Product>) session.getAttribute("prlist");
-//            request.setAttribute("prlist", prlist);
-//            request.getRequestDispatcher("shop-cart.jsp").forward(request, response);
-//        }
+
+        if (ac.equals("showcard")) {
+            HttpSession session = request.getSession();
+            ArrayList<Product> prlist = (ArrayList<Product>) session.getAttribute("prlist");
+            request.setAttribute("prlist", prlist);
+            request.getRequestDispatcher("shop-cart.jsp").forward(request, response);
+        }
 //        if (ac.equals("order")) {
 //            try (PrintWriter out = response.getWriter()) {
 //

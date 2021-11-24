@@ -55,12 +55,20 @@
                 <a href="./index.html"><img src="img/logo.png" alt=""></a>
             </div>
             <div id="mobile-menu-wrap"></div>
-            <div class="offcanvas__auth">
-            </div>
-            <div class="offcanvas__auth">
-                <a href="login.jsp">Login</a>
-                <a href="#">Register</a>
-            </div>
+            <c:choose>
+                <c:when test="${sessionScope.use != null}">
+                    <div class="offcanvas__auth">
+                        <a href="profile.jsp">${sessionScope.fullname}<span class="icon_genius"></span></a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="offcanvas__auth">
+                        <a href="login.jsp">Login</a>
+                        <a href="#">Register</a>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
 
         </div>
         <!-- Offcanvas Menu End -->
@@ -80,28 +88,40 @@
                                 <li class="active"><a href="index.jsp">Home</a></li>
                                 <li><a href="shop.jsp">Women</a></li>
                                 <li><a href="shop.jsp">Men</a></li>
-                                <li><a href="shop.jsp">brand</a></li>
+                                <li><a href="shop.jsp">Shop</a></li>
                                 <li><a href="blog.html">News</a>
-                                    <ul class="dropdown">
-                                        <li><a href="./product-details.jsp">Product Details</a></li>
-                                        <li><a href="./shop-cart.html">Shop Cart</a></li>
-                                        <li><a href="./checkout.jsp">Checkout</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                    </ul>
+                                    <c:if test="${sessionScope.use != null}">
+                                    <li><a href="vou?ac=doshow">Voucher</a>
+                                    </c:if>
+                                    <!--    <ul class="dropdown">
+                                            <li><a href="./product-details.jsp">Product Details</a></li>
+                                            <li><a href="cart?ac=doshow">Shop Cart</a></li>
+                                            <li><a href="checkout">Checkout</a></li>
+                                            <li><a href="blog?ac=doshow">Blog Details</a></li>
+                                        </ul>-->
                                 </li>
                                 <li><a href="./contact.html">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3">
+
                         <div class="header__right">
-                            <div class="header__right__auth">
-                                <a href="login.jsp">Login</a>
-                                <a href="register.jsp">Register</a>
-                            </div>
+                            <c:choose>
+                                <c:when test="${sessionScope.use != null}">
+                                    <div class="header__right__auth">
+                                        <a style="font-size: 20px" href="profile.jsp"><span class="icon_genius"></span>     ${sessionScope.fullname}</a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="header__right__auth">
+                                        <a href="login">Login</a>
+                                        <a href="#">Register</a>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
                             <ul class="header__right__widget">
-                                <li><a href="cart.jsp"><span class="icon_bag_alt"></span>
-                                        <div class="tip">2</div>
+                                <li><a  href="cart?ac=doshow"><span class="icon_bag_alt"></span>
                                     </a></li>
                             </ul>
                         </div>

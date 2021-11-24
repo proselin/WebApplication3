@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import Entity.Product;
+import Entity.category;
 import Entity.img;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,6 +48,9 @@ public class product_model {
                 p.setpRate_Count(rs.getInt(13));
                 p.setpStatus(rs.getString(14));
                 p.setCateID(rs.getString(15));
+                cate_model cs = new cate_model();
+                category ca = cs.get_category(rs.getString(15));
+                p.setCateinfo(ca);
                 img_model img = new img_model();
                 p.setImgs(img.show_image(id));
                 pro.add(p);
@@ -65,7 +69,7 @@ public class product_model {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Product> pro = new ArrayList();
-        
+
         String sql = "SELECT * FROM tblproduct";
         try {
             Statement st = conn.createStatement();
@@ -89,6 +93,9 @@ public class product_model {
                 p.setpRate_Count(rs.getInt(13));
                 p.setpStatus(rs.getString(14));
                 p.setCateID(rs.getString(15));
+                cate_model cs = new cate_model();
+                category ca = cs.get_category(rs.getString(15));
+                p.setCateinfo(ca);
                 img_model img = new img_model();
                 p.setImgs(img.show_image(id));
                 pro.add(p);
@@ -129,6 +136,9 @@ public class product_model {
                 p.setpRate_Count(rs.getInt(13));
                 p.setpStatus(rs.getString(14));
                 p.setCateID(rs.getString(15));
+                cate_model cs = new cate_model();
+                category ca = cs.get_category(rs.getString(15));
+                p.setCateinfo(ca);
                 img_model img = new img_model();
                 p.setImgs(img.show_image(id));
                 pro.add(p);
@@ -250,6 +260,9 @@ public class product_model {
             p.setpMadeIn(rs.getString(12));
             p.setpRate_Count(rs.getInt(13));
             p.setpStatus(rs.getString(14));
+            cate_model cs = new cate_model();
+            category ca = cs.get_category(rs.getString(15));
+            p.setCateinfo(ca);
             img_model img = new img_model();
             p.setImgs(img.show_image(id));
 

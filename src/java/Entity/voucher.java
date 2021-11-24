@@ -48,14 +48,17 @@ public class voucher {
     }
     
 
-    public voucher(String vouID, String vouName, float vouValues, Date vouDate_Expired, String vouStatus, String vouRule) {
+
+    public voucher(String vouID, String vouName, float vouValues, Date vouDate_Expired, Date vouDate_Create, String vouStatus, String vouRule) {
         this.vouID = vouID;
         this.vouName = vouName;
         this.vouValues = vouValues;
         this.vouDate_Expired = vouDate_Expired;
+        this.vouDate_Create = vouDate_Create;
         this.vouStatus = vouStatus;
         this.vouRule = vouRule;
     }
+    
 
     public voucher() {
     }
