@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author quoch
  */
-@WebServlet(name = "login_controller", urlPatterns = {"/login_controller"})
+@WebServlet(name = "login_controller", urlPatterns = {"/login"})
 public class login_controller extends HttpServlet {
 
     /**
@@ -36,23 +36,28 @@ public class login_controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String username = request.getParameter("username").toString();
-        String password = request.getParameter("pass").toString();
-        // tao Session
-        checkLogin cl = new checkLogin();
-        String us = cl.checkLogin(username, password);
-        user_Model um = new user_Model();
-        if (us !="" && us !=null) {
-            // take the infor of user
-            HttpSession session = request.getSession();
-            session.setAttribute("use", us);
-            User user = um.search_User_Data(us);
-            request.setAttribute("fullname", user.getFullName());
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("use") == null) {
+            String username = request.getParameter("username");
+            String password = request.getParameter("pass");
+            // tao Session
+            checkLogin cl = new checkLogin();
+            String us = cl.checkLogin(username, password);
+            user_Model um = new user_Model();
+            if (!us.equals("")) {
+                // take the infor of user
+                session.setAttribute("use", us);
+                User user = um.search_User_Data(us);
+                session.setAttribute("fullname", user.getFullName());
+                response.sendRedirect("home");
+            } else {
+                request.setAttribute("error", "Username and Password invalid !");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
         } else {
-            request.setAttribute("error", "Username and Password invalid !");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect("login.jsp");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -15,17 +15,50 @@ public class voucher {
     private String vouName;
     private float vouValues;
     private Date vouDate_Expired;
+    private Date vouDate_Create;
     private String vouStatus;
     private String vouRule;
+    private voucher_user vou_us;
 
-    public voucher(String vouID, String vouName, float vouValues, Date vouDate_Expired, String vouStatus, String vouRule) {
+    public voucher_user getVou_us() {
+        return vou_us;
+    }
+
+    public void setVou_us(voucher_user vou_us) {
+        this.vou_us = vou_us;
+    }
+
+    public Date getVouDate_Create() {
+        return vouDate_Create;
+    }
+
+    public void setVouDate_Create(Date vouDate_Create) {
+        this.vouDate_Create = vouDate_Create;
+    }
+
+    public voucher(String vouID, String vouName, float vouValues, Date vouDate_Expired, Date vouDate_Create, String vouStatus, String vouRule, voucher_user vou_us) {
         this.vouID = vouID;
         this.vouName = vouName;
         this.vouValues = vouValues;
         this.vouDate_Expired = vouDate_Expired;
+        this.vouDate_Create = vouDate_Create;
+        this.vouStatus = vouStatus;
+        this.vouRule = vouRule;
+        this.vou_us = vou_us;
+    }
+    
+
+
+    public voucher(String vouID, String vouName, float vouValues, Date vouDate_Expired, Date vouDate_Create, String vouStatus, String vouRule) {
+        this.vouID = vouID;
+        this.vouName = vouName;
+        this.vouValues = vouValues;
+        this.vouDate_Expired = vouDate_Expired;
+        this.vouDate_Create = vouDate_Create;
         this.vouStatus = vouStatus;
         this.vouRule = vouRule;
     }
+    
 
     public voucher() {
     }

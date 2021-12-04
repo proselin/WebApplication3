@@ -38,15 +38,10 @@ public class product_controller extends HttpServlet {
         String ac = request.getParameter("ac").toString();
         if (ac.equals("hpage")) // show product 
         {
-            try {
                 product_model pm = new product_model();
                 ArrayList<Product> prlist = pm.get_9_product();
                 request.setAttribute("listProduct", prlist);
                 request.getRequestDispatcher("index.jsp").forward(request, response);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-
         }
         if(ac.equals("viewsingleproduct")){
             try {

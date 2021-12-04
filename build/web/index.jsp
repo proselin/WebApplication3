@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page buffer="16kb" %>
 <jsp:include page="inc/header.jsp"/>
 
 <!-- Categories Section Begin -->
@@ -72,7 +73,7 @@
 
 <!-- Product Section Begin -->
 <c:if test="${empty requestScope['listProduct']}">
-    <jsp:forward page="/product_controller?ac=hpage"/>
+    <jsp:forward page="home"/>
 </c:if>
 
 <section class="product spad">
@@ -95,16 +96,16 @@
         </div>
 
         <div class="row property__gallery">
-            <c:forEach var="x" items="${requestScope.listProduct}">
+            <c:forEach var="x" items="${requestScope['listProduct']}">
                 <div class="col-lg-3 col-md-4 col-sm-6 mix ${x.getpGender()}  ">
                     <div class="product__item">
                         <div class="product__item__pic set-bg " data-setbg="${x.getImgs().get(0).getImgURL()}">
                             <div class="label new">New</div>
                             <ul class="product__hover">
-                                <li><a href="img/product/p1.jpg" class="image-popup"><span
+                                <li><a href="${x.getImgs().get(0).getImgURL()}" class="image-popup"><span
                                             class="arrow_expand"></span></a></li>
 
-                                <li><a href="cart.jsp?pid=${x.getpID()}"><span class="icon_bag_alt"></span></a></li>
+                                <li><a href="cart?ac=doincr&id=${x.getpID()}"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">  

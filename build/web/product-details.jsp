@@ -9,8 +9,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <c:if test="${empty requestScope.product_infor}">
     <jsp:forward page="/product_controller?ac=viewsingleproduct&pid=${param.pid}"/>
-
+    <input id="pid" type="hidden" value="${param.pid}"/>
 </c:if>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -37,10 +38,10 @@
                         <%
                             int b = 0;
                         %>
-                        <c:forEach items="${requestScope.product_infor.getImgs()}" var="x">
-                            <a class="pt" href="#product-<% out.print(b+=1); %>">
-                            <img src="${x.getImgURL()}" alt="">
-                        </a>
+                        <c:forEach items="${product_infor.getImgs()}" var="x">
+                            <a class="pt" href="#product-<% out.print(b += 1); %>">
+                                <img src="${x.getImgURL()}" alt="">
+                            </a>
                         </c:forEach>
 
 
@@ -50,7 +51,7 @@
                             <%
                                 int a = 0;
                             %>
-                            <c:forEach items="${requestScope.product_infor.getImgs()}" var="x">
+                            <c:forEach items="${product_infor.getImgs()}" var="x">
                                 <img data-hash="product-<% out.print(a += 1);%>" class="product__big__img"
                                      src="${x.getImgURL()}" alt="">
                             </c:forEach>
@@ -60,7 +61,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="product__details__text">
-                    <h3>${requestScope.product_infor.getpName()}<span>Brand: ${requestScope.product_infor.getpBrand()} </span></h3>
+                    <h3>${product_infor.getpName()}<span>Brand: ${requestScope.product_infor.getpBrand()} </span></h3>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -70,11 +71,11 @@
                         <span>( 138 reviews )</span>
                     </div>
                     <div class="product__details__price">$ ${requestScope.product_infor.getpPrice()} <!--<span>$ 83.0</span>--></div>
-                    <p id="des">${requestScope.product_infor.getpIncense()}</p>
+                    <p id="des">${requestScope.product_infor.getpName()} has a scent like ${requestScope.product_infor.getpIncense()}</p>
                     <div class="product__details__button">
-                        <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                        <a href="cart?ac=doincr&id=${product_infor.getpID()}"  class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
                         <ul>
-                            <a href="#" class=" cart-btn"
+                            <a href="slos.jsp" class=" cart-btn"
                                style="background-color: rgb(127, 216, 44) ; color: #000;border-radius: 30px;">Buy
                                 Now</a>
                         </ul>
@@ -82,8 +83,9 @@
                     <div class="product__details__widget">
                         <ul>
                             <li>
-                                <span>Status:${requestScope.product_infor.getpStatus()} </span>
-                                <p></p>
+                                <span>Status: </span>
+
+                                <p>${product_infor.getpStatus()}</p>
                             </li>
                         </ul>
                     </div>
@@ -95,15 +97,18 @@
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Information</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Specification</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <h6>Description</h6>
+                            <h6>About</h6>
                             <div class="product__details__widget">
                                 <ul style="margin-left: 10px; margin-bottom: 20px;">
                                     <li>
                                         <span>Brand</span>
-                                        <p>${requestScope.product_infor.getpBrand()} </p>
+                                        <p>${product_infor.getpBrand()} </p>
                                     </li>
                                     <li>
                                         <span>From</span>
@@ -114,9 +119,8 @@
                                         <p>${requestScope.product_infor.getpYear()}</p>
                                     </li>
                                     <li>
-                                        <span>
-                                            Concentration</span>
-                                        <p>eau de parfum </p>
+                                        <span>Concentration</span>
+                                        <p>${requestScope.product_infor.getCateinfo().getCateName()} </p>
 
                                     </li>
                                     <li>
@@ -133,13 +137,14 @@
                                     </li>
 
                                 </ul>
-                            </div>
+                            </div> 
+                        </div>
+                        <div class="tab-pane active" id="tabs-2" role="tabpanel">
+
                             <span>Descriptions</span>
                             <p> ${requestScope.product_infor.getpDes()} 
                             </p>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -157,7 +162,7 @@
                                 <div class="col-md-4 d-flex flex-column">
                                     <div class="rating-box" style="border-radius: 25px;">
                                         <h1 class="pt-4">4.0</h1>
-                                        <p style="margin-top: 5 px;text-size-adjust: 14;">out of 5</p>
+                                        <p style="margin-top: 5 px; text-size-adjust: 14;">out of 5</p>
                                     </div>
                                     <div> <span class="fa fa-star star-active mx-1"></span> <span
                                             class="fa fa-star star-active mx-1"></span> <span
