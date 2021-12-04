@@ -2,30 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package Controller;
 
-import Entity.*;
-import Model.product_model;
-import Model.user_Model;
-import Model.voucher_Model;
+import com.paypal.base.rest.PayPalRESTException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import net.codejava.OrderDetail;
+import net.codejava.PaymentServices;
 
 /**
  *
  * @author quoch
  */
-@WebServlet(urlPatterns = {"/test"})
-public class test extends HttpServlet {
+@WebServlet(name = "AuthorizePayment", urlPatterns = {"/auth"})
+public class AuthorizePayment extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,48 +34,20 @@ public class test extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Cookie arr[] = request.getCookies();
-        List<Product> list = new ArrayList<>();
-        product_model pm = new product_model();
-        for (Cookie o : arr) {
-            if (o.getName().equals("id")) {
-                String txt[] = o.getValue().split(",");
-                for (String s : txt) {
-                    list.add(pm.get_product_info(s));
-                }
-            }
-        }
-        for (int i = 0; i < list.size(); i++) {
-            int count = 1;
-            list.get(i).setTake(1);
-            for (int j = i + 1; j < list.size(); j++) {
-                if (list.get(i).getpID().equals(list.get(j).getpID())) {
-                    count++;
-                    list.remove(j);
-                    j--;
-                    list.get(i).setTake(count);
-                }
-            }
-        }
-        int count = 0;
-        double total = 0;
-        for (Product o : list) {
-            total = total + o.getTake() * o.getpPrice();
-            count = count + o.getTake();
-        }
-        total = total - total * 0.1;
+String product = request.getParameter("product");
+		String subtotal = request.getParameter("subtotal");
+		String shipping = request.getParameter("shipping");
+		String tax = request.getParameter("tax");
+		String total = request.getParameter("total");
+		
+		OrderDetail orderDetail = new OrderDetail(product, subtotal, shipping, tax, total);
 
-        voucher vo;
-
-
-        request.setAttribute("list", list);
-        request.setAttribute("total", total);
-        request.setAttribute("vat", 0.1 * total);
-        request.getRequestDispatcher("checkout.jsp").forward(request, response);
+                PaymentServices paymentServices = new PaymentServices();
+                String approvalLink = paymentServices.authorizePayment(orderDetail);
+                response.sendRedirect(approvalLink);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

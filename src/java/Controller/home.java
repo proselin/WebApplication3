@@ -40,7 +40,7 @@ public class home extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             product_model pm = new product_model();
-            ArrayList<Product> prlist = pm.get_9_product();
+            ArrayList<Product> prlist = pm.get_list_product(0,8);
             request.setAttribute("listProduct", prlist);
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (Exception e) {

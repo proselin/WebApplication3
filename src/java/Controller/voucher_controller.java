@@ -68,19 +68,23 @@ public class voucher_controller extends HttpServlet {
                 String id = request.getParameter("id");
                 voucher_Model vm = new voucher_Model();
                 vm.check_status_all_voucher();
-                user_Model usm = new user_Model();
-                User us = usm.search_User_Data(userid);
-
-                voucher csc = vm.get_voucher(id);
-                int[] rule = vm.explainrule(csc.getVouRule());
-                int point = us.getPoint();
-                //check status and check rule
-                if (csc.getVouStatus().equals("Available") && rule[0] <= point && point <= rule[1]) {
-                    vm.claim_vocher(id, userid);
+                if (vm.check_Status_voucher(id, userid)) {
+                    response.sendRedirect("vou?ac=doshow");
                 } else {
-                    request.setAttribute("error", "Your account dont meet the conditions");
+                    user_Model usm = new user_Model();
+                    User us = usm.search_User_Data(userid);
+
+                    voucher csc = vm.get_voucher(id);
+                    int[] rule = vm.explainrule(csc.getVouRule());
+                    int point = us.getPoint();
+                    //check status and check rule
+                    if (csc.getVouStatus().equals("Available") && rule[0] <= point && point <= rule[1]) {
+                        vm.claim_vocher(id, userid);
+                    } else {
+                        request.setAttribute("error", "Your account dont meet the conditions");
+                    }
+                    response.sendRedirect("vou?ac=doshow");
                 }
-                response.sendRedirect("vou?ac=doshow");
 
             }
         } else {

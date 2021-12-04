@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author quoch
  */
-@WebServlet(name = "user_controller", urlPatterns = {"/user_controller"})
+@WebServlet(name = "user", urlPatterns = {"/user"})
 public class user_controller extends HttpServlet {
 
     /**
@@ -37,24 +37,52 @@ public class user_controller extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String ac = request.getParameter("ac");
         HttpSession session = request.getSession();
-        String userid = session.getAttribute("uid").toString();
-        if (userid != null) {
-            if (ac.equals("showprofile")) {
+
+        if ((session.getAttribute("use") != null)) {
+            String userid = session.getAttribute("use").toString();
+            if (ac.equals("doshowprofile")) {
                 try {
 
                     user_Model usm = new user_Model();
                     User us = usm.search_User_Data(userid);
-                    request.setAttribute("FullName", us.getFullName());
-                    request.setAttribute("Address", us.getAddress());
-                    request.setAttribute("Gender", us.getGender());
-                    request.setAttribute("Phone", us.getPhone());
-                    request.setAttribute("Email", us.getEmail());
-                    request.setAttribute("Dob", us.getDate_of_birth());
-                    request.setAttribute("UserName", us.getUserName());
-                    request.setAttribute("Password", us.getPassword());
-                    request.setAttribute("Point", us.getPoint());
+                    String levelprocess = "";
+                    double process = (double) us.getPoint();
+                    if (0 <= us.getPoint() && us.getPoint() < 100) {
+                        request.setAttribute("level", "newbie");
+                        process = (process / 100) * 100;
+                        levelprocess = process + "/100";
+                    }
+                    if (100 <= us.getPoint() && us.getPoint() < 300) {
+                        request.setAttribute("level", "Iron");
+                        process = (process / 300) * 100;
+                        levelprocess = process + "/300";
+                    }
+                    if (300 <= us.getPoint() && us.getPoint() < 600) {
+                        request.setAttribute("level", "Silver");
+                        process = (process / 600) * 100;
+                        levelprocess = process + "/600";
+                    }
+                    if (600 <= us.getPoint() && us.getPoint() < 1200) {
+                        request.setAttribute("level", "Gold");
+                        process = (process / 1200) * 100;
+                        levelprocess = process + "/1200";
+                    }
+                    if (1200 <= us.getPoint()) {
+                        request.setAttribute("level", "Diamond");
+                        process = 100;
+                    }
+                    if (us.getPoint() == 0) {
+                        process = 0;
+                    }
+
+                    String[] addss = us.getAddress().split(";");
+                    request.setAttribute("addressls", addss);
+                    request.setAttribute("process", process);
+                    request.setAttribute("user", us);
+                    request.setAttribute("levelprocess", levelprocess);
                     request.getRequestDispatcher("profile.jsp").forward(request, response);
-                } catch (Exception e) {
+                } catch (IOException | ServletException e) {
+                    System.out.println(e);
                 }
                 if (ac.equals("show_order_history")) {
                     order_model om = new order_model();
@@ -72,7 +100,6 @@ public class user_controller extends HttpServlet {
                     ArrayList<voucher_user> listvou = vm.get_user_Voucher(userid);
                     request.setAttribute("listvou", listvou);
 
-                    
                     request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }
 
@@ -80,6 +107,14 @@ public class user_controller extends HttpServlet {
                 response.sendRedirect("login.jsp");
             }
 
+        } else {
+            request.getRequestDispatcher("login").forward(request, response);
+            request.setAttribute("notify", "please login to continue");
+            request.setAttribute("link", "user_controller?ac=doshowprofile");
+        }
+        if(ac.equals("logout")){
+            session.invalidate();
+            response.sendRedirect("home");
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

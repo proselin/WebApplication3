@@ -23,6 +23,9 @@
               rel="stylesheet">
 
         <!-- Css Styles -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
@@ -52,7 +55,7 @@
                     </a></li>
             </ul>
             <div class="offcanvas__logo">
-                <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                <a href="home"><img src="img/logo.png" alt=""></a>
             </div>
             <div id="mobile-menu-wrap"></div>
             <c:choose>
@@ -79,26 +82,31 @@
                 <div class="row">
                     <div class="col-xl-3 col-lg-2">
                         <div class="header__logo ">
-                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                            <a href="home"><img src="img/logo.png" alt=""></a>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="index.jsp">Home</a></li>
-                                <li><a href="shop.jsp">Women</a></li>
-                                <li><a href="shop.jsp">Men</a></li>
-                                <li><a href="shop.jsp">Shop</a></li>
+                                <li class="active"><a href="home">Home</a></li>
+                                <li><a href="product?ac=dosearch&gender=Women">Women</a></li>
+                                <li><a href="product?ac=dosearch&gender=Men">Men</a></li>
+                                <li><a href="product?ac=doshow">Shop</a></li>
                                 <li><a href="blog.html">News</a>
                                     <c:if test="${sessionScope.use != null}">
                                     <li><a href="vou?ac=doshow">Voucher</a>
+                                    <li><a href="user?ac=doshowprofile">Profile</a>
+                                        <ul class="dropdown">
+                                            <li><a href="user?ac=doshowprofile">Profile</a></li>
+                                            <li><a href="user?ac=logout">Logout</a></li>
+                                        </ul></li>
                                     </c:if>
-                                    <!--    <ul class="dropdown">
-                                            <li><a href="./product-details.jsp">Product Details</a></li>
-                                            <li><a href="cart?ac=doshow">Shop Cart</a></li>
-                                            <li><a href="checkout">Checkout</a></li>
-                                            <li><a href="blog?ac=doshow">Blog Details</a></li>
-                                        </ul>-->
+                                <!--    <ul class="dropdown">
+                                        <li><a href="./product-details.jsp">Product Details</a></li>
+                                        <li><a href="cart?ac=doshow">Shop Cart</a></li>
+                                        <li><a href="checkout">Checkout</a></li>
+                                        <li><a href="blog?ac=doshow">Blog Details</a></li>
+                                    </ul>-->
                                 </li>
                                 <li><a href="./contact.html">Contact</a></li>
                             </ul>
@@ -110,17 +118,19 @@
                             <c:choose>
                                 <c:when test="${sessionScope.use != null}">
                                     <div class="header__right__auth">
-                                        <a style="font-size: 20px" href="profile.jsp"><span class="icon_genius"></span>     ${sessionScope.fullname}</a>
+                                        <a style="font-size: 20px" href="user?ac=doshowprofile"><span class="icon_genius"></span>   ${sessionScope.fullname}</a>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="header__right__auth">
                                         <a href="login">Login</a>
                                         <a href="#">Register</a>
+
                                     </div>
                                 </c:otherwise>
                             </c:choose>
                             <ul class="header__right__widget">
+                                <li><span class="icon_search search-switch"></span></li>
                                 <li><a  href="cart?ac=doshow"><span class="icon_bag_alt"></span>
                                     </a></li>
                             </ul>

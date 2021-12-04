@@ -97,11 +97,11 @@ public class order_model {
 
     }
 
-    public boolean create_order(String orderDes, String orderStatus, String orderAddress, String orderCustommerName, String orderEmailContract, String orderPhoneNumber, float orderTotalPrice, String orderPaymentMethod, String UserID, String vouID) {
+    public Order create_order(String orderDes, String orderStatus, String orderAddress, String orderCustommerName, String orderEmailContract, String orderPhoneNumber, float orderTotalPrice, String orderPaymentMethod, String UserID, String vouID) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
-        boolean result = false;
         //Create new order ;
+        Order or =null;
         String sql = "INSERT INTO tblOrder "
                 + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ";
         try {
@@ -121,10 +121,11 @@ public class order_model {
             ps.setString(4, orderStatus);
             ps.setString(3, orderDes);
             ps.setDate(2, date);
-            ps.setString(1, create_New_ID());
+            String id = create_New_ID();
+            ps.setString(1, id);
 
-            if (ps.executeUpdate() != 0) {
-                result = true;
+            if (ps.executeUpdate() > 0) {
+               or = new Order(id,date, orderDes, orderStatus, orderAddress, orderCustommerName, orderPhoneNumber, orderTotalPrice, orderPaymentMethod, UserID, vouID);
             }
             ps.close();
             conn.close();
@@ -132,11 +133,11 @@ public class order_model {
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        return result;
+        return or;
 
     }
 
-    public ArrayList<Order> get_All_Order() {
+    public ArrayList<Order> show_All_Order() {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Order> ors = new ArrayList<>();
@@ -245,30 +246,9 @@ public class order_model {
 
     }
 
-    private static String create_New_ID() {
-        GetConnection cn = new GetConnection();
-        Connection conn = cn.getConnection();
-        String result = null;
-        String sql = "SELECT orderID FROM  tblOrder ORDER BY orderID DESC";
-        try {
-            Statement ps = conn.createStatement();
-            ResultSet rs = ps.executeQuery(sql);
-            rs.next();
-            String last = rs.getString(1);
-            String strnumber = last.substring(5, last.length());
-            String strname = last.substring(0, 5);
-            int number = Integer.parseInt(strnumber);
-            result = strname + (number + 1);
-
-            rs.close();
-            ps.close();
-            conn.close();
-
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-        return result;
-
+    public String create_New_ID() {
+        ArrayList<Order> or = show_All_Order();
+        return "ORDER" +(or.size()+1);
     }
 //    public add_product_to_order(String orderID)
 }
