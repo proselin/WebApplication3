@@ -69,35 +69,7 @@ public class cart extends HttpServlet {
 
             response.sendRedirect("cart?ac=doshow");
         }
-        if (ac.equals("docheckout")) {
-            Cookie arr[] = request.getCookies();
-            List<Product> list = new ArrayList<>();
-            product_model pm = new product_model();
-            for (Cookie o : arr) {// xu ly chuoi cookie 
-                if (o.getName().equals("id")) {
-                    String txt[] = o.getValue().split(",");
-                    for (String s : txt) {
-                        list.add(pm.get_product_info(s));
-                    }
-                }
-            }
-            for (int i = 0; i < list.size(); i++) {
-                int count = 1;
-                for (int j = i + 1; j < list.size(); j++) {
-                    if (list.get(i).getpID().equals(list.get(j).getpID())) {
-                        count++;
-                        list.remove(j);
-                        j--;
-                        list.get(i).setTake(count);
-                    }
-                }
-            }
-            for (Cookie o : arr) {// go di gia tri cu va gan gia tri moi cho cookie 
-                o.setMaxAge(0);// xoa cookie 
-                response.addCookie(o);// them lai cookie
-            }
-            response.sendRedirect("index.jsp");
-        }
+       
         if (ac.equals("doremove")) {
             String id = request.getParameter("id");
             Cookie arr[] = request.getCookies();
@@ -155,14 +127,16 @@ public class cart extends HttpServlet {
             }
 
             double total = 0;
-            int count =0;
+            int count = 0;
             for (Product o : list) {
+
                 total = total + o.getTake() * o.getpPrice();
                 count += o.getTake();
             }
+            // voucher show
             if (null != (session.getAttribute("use"))) {
                 String userid = session.getAttribute("use").toString();
-// voucher show 
+ 
                 voucher_Model vm = new voucher_Model();
                 vm.check_status_all_voucher();
                 //voucher ma nguoi su dung dang co
@@ -170,7 +144,7 @@ public class cart extends HttpServlet {
                 ArrayList<voucher_user> os = new ArrayList<>();
                 for (voucher_user v : listvou) {
                     int[] rule = vm.explainrule(v.getVoucher_info().getVouRule());
-                    if (rule[2] > count || count  > rule[3]) {
+                    if (rule[2] > count || count > rule[3]) {
                         os.add(v);
                     }
                 }
@@ -178,15 +152,16 @@ public class cart extends HttpServlet {
 
                 request.setAttribute("listv", listvou);
                 System.out.println(listvou);
-                
+
                 String vouid = request.getParameter("svou");
-                if ( vouid != null) {
+                if (vouid != null) {
                     vm.check_status_all_voucher();
                     voucher vou = vm.get_voucher(vouid);
                     total = total - vou.getVouValues();
-                    if(total <0){
+                    if (total < 0) {
                         total = 1;
                     }
+                    request.setAttribute("vouid", vouid);
                     request.setAttribute("reduce", vou.getVouValues());
                 }
             }

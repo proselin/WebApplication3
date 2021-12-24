@@ -18,17 +18,196 @@ import Entity.img;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class product_model {
 
-    public ArrayList<Product> search_product(String search) {
+    public ArrayList<Product> search_product_by_pName(String search) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Product> pro = new ArrayList();
-        String sql = "SELECT * FROM tblproduct WHERE pName LIKE %?%";
+        String sql = "SELECT * FROM tblproduct WHERE pName LIKE ? ORDER BY pGet_Date DESC , pID DESC";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, search);
+            ps.setString(1, "%" + search + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                String id = rs.getString(1);
+                p.setpID(id);
+                p.setpName(rs.getString(2));
+                p.setpPrice(rs.getFloat(3));
+                p.setpDes(rs.getString(4));
+                p.setpSale_Quantity(rs.getInt(5));
+                p.setpCurrent_Quantity(rs.getInt(6));
+                p.setpYear(rs.getInt(7));
+                p.setpGet_Date(rs.getDate(8));
+                p.setpBrand(rs.getString(9));
+                p.setpGender(rs.getString(10));
+                p.setpIncense(rs.getString(11));
+                p.setpMadeIn(rs.getString(12));
+                p.setpRate_Count(rs.getInt(13));
+                p.setpStatus(rs.getString(14));
+                p.setCateID(rs.getString(15));
+                cate_model cs = new cate_model();
+                category ca = cs.get_category(rs.getString(15));
+                p.setCateinfo(ca);
+                img_model img = new img_model();
+                p.setImgs(img.show_image(id));
+                pro.add(p);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return pro;
+    }
+
+    public ArrayList<Product> search_product_by_gender(String gender) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Product> pro = new ArrayList();
+        String sql = "SELECT * FROM tblproduct WHERE pGender = ? ORDER BY pGet_Date DESC , pID DESC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, gender);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                String id = rs.getString(1);
+                p.setpID(id);
+                p.setpName(rs.getString(2));
+                p.setpPrice(rs.getFloat(3));
+                p.setpDes(rs.getString(4));
+                p.setpSale_Quantity(rs.getInt(5));
+                p.setpCurrent_Quantity(rs.getInt(6));
+                p.setpYear(rs.getInt(7));
+                p.setpGet_Date(rs.getDate(8));
+                p.setpBrand(rs.getString(9));
+                p.setpGender(rs.getString(10));
+                p.setpIncense(rs.getString(11));
+                p.setpMadeIn(rs.getString(12));
+                p.setpRate_Count(rs.getInt(13));
+                p.setpStatus(rs.getString(14));
+                p.setCateID(rs.getString(15));
+                cate_model cs = new cate_model();
+                category ca = cs.get_category(rs.getString(15));
+                p.setCateinfo(ca);
+                img_model img = new img_model();
+                p.setImgs(img.show_image(id));
+                pro.add(p);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return pro;
+    }
+
+    public ArrayList<Product> search_product_by_price(float start, float end) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Product> pro = new ArrayList();
+        String sql = "SELECT * FROM tblproduct WHERE pPrice > ? AND pPrice< ? ORDER BY pGet_Date DESC , pID DESC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setFloat(1, start);
+            ps.setFloat(2, end);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                String id = rs.getString(1);
+                p.setpID(id);
+                p.setpName(rs.getString(2));
+                p.setpPrice(rs.getFloat(3));
+                p.setpDes(rs.getString(4));
+                p.setpSale_Quantity(rs.getInt(5));
+                p.setpCurrent_Quantity(rs.getInt(6));
+                p.setpYear(rs.getInt(7));
+                p.setpGet_Date(rs.getDate(8));
+                p.setpBrand(rs.getString(9));
+                p.setpGender(rs.getString(10));
+                p.setpIncense(rs.getString(11));
+                p.setpMadeIn(rs.getString(12));
+                p.setpRate_Count(rs.getInt(13));
+                p.setpStatus(rs.getString(14));
+                p.setCateID(rs.getString(15));
+                cate_model cs = new cate_model();
+                category ca = cs.get_category(rs.getString(15));
+                p.setCateinfo(ca);
+                img_model img = new img_model();
+                p.setImgs(img.show_image(id));
+                pro.add(p);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return pro;
+    }
+
+    public ArrayList<Product> search_product_by_cate(String cate) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Product> pro = new ArrayList();
+        String sql = "SELECT * FROM tblproduct WHERE CateID = ? ORDER BY pGet_Date DESC , pID DESC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, cate);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                String id = rs.getString(1);
+                p.setpID(id);
+                p.setpName(rs.getString(2));
+                p.setpPrice(rs.getFloat(3));
+                p.setpDes(rs.getString(4));
+                p.setpSale_Quantity(rs.getInt(5));
+                p.setpCurrent_Quantity(rs.getInt(6));
+                p.setpYear(rs.getInt(7));
+                p.setpGet_Date(rs.getDate(8));
+                p.setpBrand(rs.getString(9));
+                p.setpGender(rs.getString(10));
+                p.setpIncense(rs.getString(11));
+                p.setpMadeIn(rs.getString(12));
+                p.setpRate_Count(rs.getInt(13));
+                p.setpStatus(rs.getString(14));
+                p.setCateID(rs.getString(15));
+                cate_model cs = new cate_model();
+                category ca = cs.get_category(rs.getString(15));
+                p.setCateinfo(ca);
+                img_model img = new img_model();
+                p.setImgs(img.show_image(id));
+                pro.add(p);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return pro;
+    }
+
+    public ArrayList<Product> search_product_by_brand(String brandname) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        ArrayList<Product> pro = new ArrayList();
+        String sql = "SELECT * FROM tblproduct WHERE pbrand = ? ORDER BY pGet_Date DESC , pID DESC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, brandname);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
@@ -110,14 +289,20 @@ public class product_model {
         return pro;
     }
 
-    public ArrayList<Product> get_9_product() {
+    public ArrayList<Product> get_list_product(int offset, int fetch) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         ArrayList<Product> pro = new ArrayList();
-        String sql = "SELECT TOP 8 * FROM tblproduct ORDER by pGet_Date DESC ";
+        String sql = "SELECT *\n"
+                + "\n"
+                + "FROM tblProduct\n"
+                + "ORDER BY pGet_Date DESC  , pid DESC\n"
+                + "OFFSET ?  ROWS FETCH NEXT ? ROWS ONLY ";
         try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, offset);
+            st.setInt(2, fetch);
+            ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product p = new Product();
                 String id = rs.getString(1);
@@ -188,7 +373,7 @@ public class product_model {
         return result;
     }
 
-    public boolean update_product(String pID, String pName, Float pPrice, String pDes, int pCurrent_Quantity, int pYear, String pBrand, String pGender, String pIncense, String pMadeIn, String pStatus) {
+    public boolean update_product(String pID, String pName, Float pPrice, String pDes, int pCurrent_Quantity, int pYear, String pBrand, String pGender, String pIncense, String pMadeIn, String pStatus, int pRate_Count) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
         boolean result = false;
@@ -204,6 +389,7 @@ public class product_model {
                 + "      ,[pIncense] = ?\n"
                 + "      ,[pMadeIn] = ?\n"
                 + "      ,[pStatus] = ?\n"
+                + "      ,[pRate_Count] = ?\n"
                 + " WHERE pID = ?  ";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -217,7 +403,8 @@ public class product_model {
             ps.setString(8, pIncense);
             ps.setString(9, pMadeIn);
             ps.setString(10, pStatus);
-            ps.setString(11, pID);
+            ps.setInt(11, pRate_Count);
+            ps.setString(12, pID);
             if (ps.executeUpdate() != 0) {
                 result = true;
             }
@@ -232,6 +419,27 @@ public class product_model {
     public String create_id_product() {
         ArrayList<Product> prlist = get_all_product();
         return "PRO" + (prlist.size() + 1);
+    }
+
+    public List<String> brandname() {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        List<String> rsl = new ArrayList<String>();
+        String sql = "SELECT COUNT(pID), pBrand FROM tblProduct\n"
+                + "GROUP BY pBrand \n"
+                + "ORDER BY COUNT(pID) DESC";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                rsl.add(rs.getString(2));
+
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+        }
+        return rsl;
     }
 
     public Product get_product_info(String productId) {
@@ -299,6 +507,32 @@ public class product_model {
 
     }
 
+    public boolean set_Product_to_order(String id, String pid, int quantity, float price) {
+        GetConnection cn = new GetConnection();
+        Connection conn = cn.getConnection();
+        //check current quantity
+        boolean result = false;
+        String sql = " INSERT INTO tblOrder_detail VALUES (?,?,?,?)";
+        try {
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, pid);
+            ps.setString(2, id);
+            ps.setInt(3, quantity);
+            ps.setFloat(4, price);
+
+            if (ps.executeUpdate() > 0) {
+                result = true;
+            }
+            ps.close();
+            conn.close();
+
+        } catch (Exception e) {
+        }
+        return result;
+
+    }
+
     public boolean add_New_Quantity_Product(String id, int quantity) {
         GetConnection cn = new GetConnection();
         Connection conn = cn.getConnection();
@@ -320,27 +554,6 @@ public class product_model {
         }
         return result;
 
-    }
-
-    public float get_Current_price(String pID) {
-        GetConnection cn = new GetConnection();
-        Connection conn = cn.getConnection();
-        float result = 0;
-        String sql = "SELECT pPrice FROM tblProduct WHERE pID = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, pID);
-            ResultSet rs = ps.executeQuery();
-            result = rs.getFloat(1);
-
-            rs.close();
-            ps.close();
-            conn.close();
-
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-        return result;
     }
 
 }

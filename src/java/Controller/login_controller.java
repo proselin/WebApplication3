@@ -44,7 +44,7 @@ public class login_controller extends HttpServlet {
             checkLogin cl = new checkLogin();
             String us = cl.checkLogin(username, password);
             user_Model um = new user_Model();
-            if (!us.equals("")) {
+            if (!us.equals("") ) {
                 // take the infor of user
                 session.setAttribute("use", us);
                 User user = um.search_User_Data(us);
@@ -55,7 +55,7 @@ public class login_controller extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } else {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("home");
         }
 
     }

@@ -109,7 +109,7 @@
                             </ul>
                         </div>
                         <div class="product__item__text">  
-                            <a href="product-details.jsp?pid=${x.getpID()}">${x.getpName()}</a>
+                            <a href="product?ac=doshowdetail&pid=${x.getpID()}">${x.getpName()}</a>
                             <div class="product__price">$ ${x.getpPrice()}</div>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ package Model;
 import Entity.Product;
 import Entity.User;
 import Entity.category;
+import Entity.rate;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,13 +37,12 @@ public class main {
         img_model im = new img_model();
         cate_model cate = new cate_model();
         voucher_Model vou = new voucher_Model();
-        ArrayList<User> usa = us.User_Data();
-        System.out.println(usa.toString());
-        System.out.println(pm.get_all_product());
-        System.out.println();
-        System.out.println(Arrays.toString(vou.explainrule(vou.get_voucher("VOU001").getVouRule())));
-        System.out.println(vou.show_All_Voucher("USER001").get(0).getVouDate_Create());
-        System.out.println(vou.get_user_Voucher("USER001"));
+        order_model om = new order_model();
+        rate_model rm = new rate_model();
+        String pid = "PRO9";
+
+        System.out.println(pm.search_product_by_brand(pid));
+
 
     }
 }
